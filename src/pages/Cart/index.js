@@ -11,12 +11,12 @@ import * as CartActions from '../../store/modules/cart/actions';
 import { formatPrice } from '../../util/format';
 import { Container, ProductTable, Total } from './styles';
 
-function Cart({ cart, removeToCart, updadeAmount, total }) {
+function Cart({ cart, removeToCart, updadeAmountRequest, total }) {
   function increment(product) {
-    updadeAmount(product.id, product.amount + 1);
+    updadeAmountRequest(product.id, product.amount + 1);
   }
   function decrement(product) {
-    updadeAmount(product.id, product.amount - 1);
+    updadeAmountRequest(product.id, product.amount - 1);
   }
 
   return (
