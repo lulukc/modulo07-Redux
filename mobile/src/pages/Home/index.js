@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import {
   Container,
@@ -14,6 +15,7 @@ import {
 
 import api from '../../services/api';
 import { formatPrice } from '../../util/format';
+import * as CartActions from '../../store/modules/cart/actions';
 
 class Home extends Component {
   state = {
@@ -32,12 +34,9 @@ class Home extends Component {
     });
   }
 
-  hendelAddtoCart = product => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'Add_to_cart',
-      product,
-    });
+  hendelAddtoCart = id => {
+    const { addToCartRequest } = this.props;
+    addToCartRequest(id);
   };
 
   render() {
@@ -52,7 +51,7 @@ class Home extends Component {
               <ProductImage source={{ uri: item.image }} />
               <ProductTitle> {item.title} </ProductTitle>
               <ProductPrice>{item.priceFormatted}</ProductPrice>
-              <BuyButton onPress={() => this.hendelAddtoCart(products)}>
+              <BuyButton onPress={() => this.hendelAddtoCart(item.id)}>
                 <BuyButtonText>Adicionar ao carrinho</BuyButtonText>
               </BuyButton>
             </Product>
@@ -62,4 +61,8 @@ class Home extends Component {
     );
   }
 }
-export default connect()(Home);
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Home);
